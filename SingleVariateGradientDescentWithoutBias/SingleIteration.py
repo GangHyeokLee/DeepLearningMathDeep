@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from sympy.physics.control.control_plots import matplotlib
 
 from dataset_generator import dataset_generator
 import basic_node as nodes

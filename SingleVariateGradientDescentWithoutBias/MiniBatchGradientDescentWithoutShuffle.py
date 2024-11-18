@@ -1,10 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 
-from SingleVariateGradientDescentWithoutBias.dataset_generator import dataset_generator
-import SingleVariateGradientDescentWithoutBias.basic_node as nodes
-from plt_show import plt_show
+from dataset_generator import dataset_generator
+import basic_node as nodes
+from SingleVariateGradientDescentWithoutBias.plt_show import plt_show
 
 np.random.seed(0)
 plt.style.use('ggplot')

@@ -2,8 +2,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from SingleVariateGradientDescentWithoutBias.dataset_generator import dataset_generator
-import SingleVariateGradientDescentWithoutBias.basic_node as nodes
+from dataset_generator import dataset_generator
+import basic_node as nodes
 
 # dataset preparation
 dataset_gen = dataset_generator()
