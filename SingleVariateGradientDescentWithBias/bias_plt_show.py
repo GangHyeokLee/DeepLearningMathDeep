@@ -4,7 +4,7 @@ import numpy as np
 def plt_show(th1_list, th0_list, loss_list, x_data, y_data):
     plt.style.use('seaborn-v0_8-darkgrid')
 
-    fig, ax = plt.subplots(2, 1, figsize=(20, 15))
+    fig, ax = plt.subplots(2, 1, figsize=(30, 15))
     ax[0].plot(th1_list, label=r'$\theta_{1}$')
     ax[0].plot(th0_list, label=r'$\theta_{0}$')
     ax[1].plot(loss_list)
