@@ -40,32 +40,31 @@ loss_list = []
 
 for epoch in range(epochs):
     for data_idx, (X, y) in enumerate(zip(x_data, y_data)):
-        z1_list = [None] * (feature_dim + 1)
-        z2_list, dz2_list, dz1_list, dth_list = z1_list.copy(), z1_list.copy(), z1_list.copy(), z1_list.copy()
+        z1_1 = node1[1].forward(th_list[1], X[1])
+        z1_2 = node1[2].forward(th_list[2], X[2])
+        z1_3 = node1[3].forward(th_list[3], X[3])
 
-        for node_idx in range(1, feature_dim + 1):
-            z1_list[node_idx] = node1[node_idx].forward(th_list[node_idx], X[node_idx])
+        z2_1 = node2[1].forward(th_list[0], z1_1)
+        z2_2 = node2[2].forward(z2_1, z1_2)
+        z2_3 = node2[3].forward(z2_2, z1_3)
 
-        z2_list[1] = node2[1].forward(th_list[0], z1_list[1])
-
-        for node_idx in range(2, feature_dim + 1):
-            z2_list[node_idx] = node2[node_idx].forward(z2_list[node_idx - 1], z1_list[node_idx])
-
-        z3 = node3.forward(y, z2_list[-1])
+        z3 = node3.forward(y, z2_3)
         l = node4.forward(z3)
 
         dz3 = node4.backward(1)
-        _, dz2_list[-1] = node3.backward(dz3)
-        for node_idx in reversed(range(1, feature_dim + 1)):
-            dz2_list[node_idx-1], dz1_list[node_idx] = node2[node_idx].backward(dz2_list[node_idx])
+        dy, dz2_3 = node3.backward(dz3)
+        dz2_2, dz1_3 = node2[3].backward(dz2_3)
+        dz2_1, dz1_2 = node2[2].backward(dz2_2)
+        dth0, dz1_1 = node2[1].backward(dz2_1)
 
-        dth_list[0] = dz2_list[0]
+        dth3, dx3 = node1[3].backward(dz1_3)
+        dth2, dx2 = node1[2].backward(dz1_2)
+        dth1, dx1 = node1[1].backward(dz1_1)
 
-        for node_idx in reversed(range(1, feature_dim + 1)):
-            dth_list[node_idx], _ = node1[node_idx].backward(dz1_list[node_idx])
-
-        for th_idx in range(len(th_list)) :
-            th_list[th_idx] -= lr * dth_list[th_idx]
+        th_list[3] = th_list[3] - lr * dth3
+        th_list[2] = th_list[2] - lr * dth2
+        th_list[1] = th_list[1] - lr * dth1
+        th_list[0] = th_list[0] - lr * dth0
 
         loss_list.append(l)
 

@@ -1,9 +1,6 @@
 import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib.cm as cm
 
-import basic_node as nodes
-from dataset_generator import dataset_generator
+from util.dataset_generator import dataset_generator
 from SVLR import SVLR
 
 

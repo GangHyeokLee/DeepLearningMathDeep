@@ -1,9 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 
-from LR_dataset_generator import LR_dataset_generator
-import basic_node as nodes
+from util.LR_dataset_generator import LR_dataset_generator
+from util import basic_node as nodes
 
 plt.style.use("seaborn-v0_8-whitegrid")
 np.random.seed(0)

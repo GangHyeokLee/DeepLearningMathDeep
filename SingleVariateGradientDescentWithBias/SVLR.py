@@ -1,6 +1,5 @@
-import basic_node as nodes
+from util import basic_node as nodes
 import numpy as np
-from bias_plt_show import plt_show
 from matplotlib import pyplot as plt
 
 check_freq = 100

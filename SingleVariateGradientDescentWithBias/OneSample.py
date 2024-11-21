@@ -1,8 +1,7 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
-import basic_node as nodes
-from dataset_generator import dataset_generator
+from util import basic_node as nodes
+from util.dataset_generator import dataset_generator
 from bias_plt_show import plt_show
 
 np.random.seed(0)
