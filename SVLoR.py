@@ -7,6 +7,8 @@ class Affine:
         self._feature_dim = 1
         self._Th = None
 
+        self.node_imp()
+
     def node_imp(self):
         self._node1 = nodes.mul_node()
         self._node2 = nodes.plus_node()
