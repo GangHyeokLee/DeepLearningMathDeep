@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from util.LR_dataset_generator import LR_dataset_generator
-from util import basic_node as nodes
+from LinearRegression.util.LR_dataset_generator import LR_dataset_generator
+from LinearRegression.util import basic_node as nodes
 
 plt.style.use("seaborn-v0_8-whitegrid")
 np.random.seed(0)

@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from util.dataset_generator import dataset_generator
-from util import basic_node as nodes
-from SingleVariateGradientDescentWithoutBias.plt_show import plt_show
+from LinearRegression.util.dataset_generator import dataset_generator
+from LinearRegression.util import basic_node as nodes
+from LinearRegression.SingleVariateGradientDescentWithoutBias.plt_show import plt_show
 
 np.random.seed(0)
 plt.style.use('ggplot')

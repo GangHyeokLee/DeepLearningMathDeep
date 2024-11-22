@@ -1,7 +1,7 @@
 import numpy as np
 
-from util import basic_node as nodes
-from util.dataset_generator import dataset_generator
+from LinearRegression.util import basic_node as nodes
+from LinearRegression.util.dataset_generator import dataset_generator
 from bias_plt_show import plt_show
 
 np.random.seed(0)

@@ -1,6 +1,6 @@
 import numpy as np
 
-from util.dataset_generator import dataset_generator
+from LinearRegression.util.dataset_generator import dataset_generator
 from SVLR import SVLR
 
 

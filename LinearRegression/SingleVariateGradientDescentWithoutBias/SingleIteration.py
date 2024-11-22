@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from util.dataset_generator import dataset_generator
-from util import basic_node as nodes
+from LinearRegression.util.dataset_generator import dataset_generator
+from LinearRegression.util import basic_node as nodes
 
 dataset_gen = dataset_generator()
 

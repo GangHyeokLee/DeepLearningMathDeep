@@ -1,4 +1,4 @@
-from util import basic_node as nodes
+from LinearRegression.util import basic_node as nodes
 import numpy as np
 from matplotlib import pyplot as plt
 

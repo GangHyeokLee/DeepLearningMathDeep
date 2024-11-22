@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from util.dataset_generator import dataset_generator
-from util import basic_node as nodes
-from SingleVariateGradientDescentWithoutBias.plt_show import plt_show
+from LinearRegression.util.dataset_generator import dataset_generator
+from LinearRegression.util import basic_node as nodes
+from LinearRegression.SingleVariateGradientDescentWithoutBias.plt_show import plt_show
 
 np.random.seed(0)
 plt.style.use('ggplot')
@@ -27,12 +27,6 @@ lr = 0.01
 loss_list, th_list = [], []
 epochs = 2
 for epoch in range(epochs):
-
-    random_idx = np.arange(len(x_data))
-    np.random.shuffle(random_idx)
-    x_data = x_data[random_idx]
-    y_data = y_data[random_idx]
-
     for data_idx in range(len(x_data)):
         x, y = x_data[data_idx], y_data[data_idx]
 

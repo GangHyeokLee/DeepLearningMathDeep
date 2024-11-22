@@ -1,5 +1,5 @@
-from util.dataset_generator import *
-from util import basic_node as nodes
+from LinearRegression.util.dataset_generator import *
+from LinearRegression.util import basic_node as nodes
 
 plt.style.use("ggplot")
 np.random.seed(0)

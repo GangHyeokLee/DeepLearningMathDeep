@@ -1,9 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 
-from util.LR_dataset_generator import LR_dataset_generator as dataset_generator
-from util import basic_node as nodes
+from LinearRegression.util.LR_dataset_generator import LR_dataset_generator as dataset_generator
+from LinearRegression.util import basic_node as nodes
 
 np.random.seed(0)
 plt.style.use("ggplot")

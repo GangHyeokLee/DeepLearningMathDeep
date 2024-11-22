@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from util.dataset_generator import dataset_generator
-from util import basic_node as nodes
-from SingleVariateGradientDescentWithoutBias.plt_show import plt_show
+from LinearRegression.util.dataset_generator import dataset_generator
+from LinearRegression.util import basic_node as nodes
+from LinearRegression.SingleVariateGradientDescentWithoutBias.plt_show import plt_show
 
 np.random.seed(0)
 plt.style.use('ggplot')
@@ -32,12 +32,6 @@ t_iteration = 500
 epochs = np.ceil(t_iteration / n_batch).astype(int)
 
 for epoch in range(epochs):
-
-    idx_np = np.arange(len(x_data))
-    np.random.shuffle(idx_np)
-    x_data = x_data[idx_np]
-    y_data = y_data[idx_np]
-
     for batch_idx in range(n_batch):
         if batch_idx is n_batch - 1:
             X = x_data[batch_idx * batch_size:]

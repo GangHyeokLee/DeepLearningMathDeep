@@ -1,7 +1,7 @@
 import numpy as np
 
-from util import basic_node as nodes
-from util.dataset_generator import dataset_generator
+from LinearRegression.util import basic_node as nodes
+from LinearRegression.util.dataset_generator import dataset_generator
 from bias_plt_show import plt_show
 
 np.random.seed(0)
@@ -11,14 +11,6 @@ dataset_gen = dataset_generator()
 dataset_gen.set_coefficient([5, 2])
 
 x_data, y_data = dataset_gen.make_dataset()
-
-x_mean = np.mean(x_data)
-x_std = np.std(x_data)
-print(x_mean, x_std)
-
-x_data = (x_data - x_mean)/x_std
-print(np.mean(x_data), np.std(x_data))
-
 data=np.hstack((x_data, y_data))
 
 # model implementation
