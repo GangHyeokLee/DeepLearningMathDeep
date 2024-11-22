@@ -2,7 +2,7 @@ import LinearRegression.util.basic_node as nodes
 import numpy as np
 
 
-class affine:
+class Affine:
     def __init__(self):
         self._feature_dim = 1
         self._Th = None
