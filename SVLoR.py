@@ -8,6 +8,7 @@ class Affine:
         self._Th = None
 
         self.node_imp()
+        self.random_initialization()
 
     def node_imp(self):
         self._node1 = nodes.mul_node()
