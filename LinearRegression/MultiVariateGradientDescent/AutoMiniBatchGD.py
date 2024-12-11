@@ -14,16 +14,35 @@ def get_data_batch(data, batch_idx):
         batch = data[batch_idx * batch_size : (batch_idx+1) * batch_size]
     return batch
 
-feature_dim = 2
-batch_size = 8
+batch_size = 100
 
-data_gen = dataset_generator(feature_dim=feature_dim)
-x_data, y_data = data_gen.make_dataset()
+n_sample = 100
+feature_dim = 3
+coefficient_list = [3, 3, 3, 3]
+
+distribution_params = {
+    1: {'mean': 0, 'std': 1},
+    2: {'mean': 0, 'std': 1},
+    3: {'mean': 0, 'std': 1}
+}
+
+y_data = np.zeros(shape=(n_sample, 1))
+x_data = np.zeros(shape=(n_sample, 1))
+
+for feature_idx in range(1, feature_dim + 1):
+    feature_data = np.random.normal(loc=distribution_params[feature_idx]['mean'],
+                                    scale=distribution_params[feature_idx]['std'],
+                                    size=(n_sample, 1))
+    x_data = np.hstack((x_data, feature_data))
+
+    y_data += coefficient_list[feature_idx] * feature_data
+
+y_data += coefficient_list[0]
+
 data = np.hstack((x_data, y_data))
-
 n_batch = np.ceil(data.shape[0] / batch_size).astype(int)
 Th = np.random.normal(0, 1, size=(feature_dim+1)).reshape(-1, 1)
-epochs, lr = 100, 0.001
+epochs, lr = 200, 0.001
 
 node1 = [None] + [nodes.mul_node() for _ in range(feature_dim)]
 node2 = [None] + [nodes.plus_node() for _ in range(feature_dim)]
@@ -70,9 +89,23 @@ for epoch in range(epochs):
         for node_idx in reversed(range(1, feature_dim+1)):
             dTh[node_idx], _ = node1[node_idx].backward(dZ1[node_idx])
 
-        for th_idx in range(1, feature_dim+1):
+        for th_idx in range(len(dTh)):
             Th[th_idx] -= lr * np.sum(dTh[th_idx])
 
         th_current = Th.reshape(-1, 1)
         th_accum = np.hstack((th_accum, th_current))
         cost_list.append(J)
+
+fig, ax = plt.subplots(2, 1, figsize=(40, 20))
+for i in range(feature_dim + 1):
+    ax[0].plot(th_accum[i], label=r'$\theta_{%d}$' % i, linewidth=5)
+
+ax[1].plot(cost_list)
+ax[0].legend(loc='lower right',
+             fontsize=30)
+ax[0].tick_params(axis='both', labelsize=30)
+ax[1].tick_params(axis='both', labelsize=30)
+ax[0].set_title(r'$\vec{\theta}$', fontsize=40)
+ax[1].set_title('Loss', fontsize=40)
+
+plt.show()
