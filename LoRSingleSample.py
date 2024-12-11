@@ -1,10 +1,7 @@
-import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-import matplotlib.cm as cm
-from SVLoR import *
+from SVLoRModules import *
 
-import LinearRegression.util.basic_node as nodes
 from dataset_generator import dataset_generator
 
 np.random.seed(0)
@@ -16,7 +13,7 @@ mpl.rcParams['axes.labelsize'] = 30
 mpl.rcParams['axes.titlesize'] = 40
 mpl.rcParams['legend.fontsize'] = 30
 
-x_dict = {'mean': 1, 'std': 1, 'n_sample': 300, 'noise_factor': 0.3, 'cutoff': 1, 'direction': -1}
+x_dict = get_xdict(1, 1, 300, 0.3, 1, -1)
 data = dataset_generator(x_dict)
 
 affine = Affine()
@@ -29,7 +26,7 @@ loss_list = []
 iter_idx, check_freq = 0, 2
 epochs, lr = 300, 0.01
 
-#learning
+# learning
 for epoch in range(epochs):
     np.random.shuffle(data)
 
