@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-import LinearRegression.util.basic_node as nodes
+import basic_node as nodes
 
 
 class Affine:

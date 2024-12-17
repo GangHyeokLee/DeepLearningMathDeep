@@ -1,8 +1,7 @@
-from flatbuffers.packer import int64
 import matplotlib as mpl
 
-from LogisticRegression.SingleVariate.SeveralSamples.dataset import *
-from LogisticRegression.SingleVariate.SeveralSamples.functions import *
+from dataset import *
+from functions import *
 
 np.random.seed(0)
 plt.style.use('ggplot')
