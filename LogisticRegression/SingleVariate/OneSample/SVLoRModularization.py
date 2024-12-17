@@ -1,10 +1,11 @@
 import numpy as np
 from SVLoR import SVLoR
 from SVLoRModules import get_xdict, BinaryCrossEntropy_Loss, result_tracker, result_visualizer
-from dataset_generator import dataset_generator
+from LogisticRegression.SingleVariate.OneSample.dataset_generator import dataset_generator
 
-x_dict = get_xdict(1, 1, 300, 0.3, 1, -1)
+x_dict = get_xdict(0, 0.3, 500, 0, 0, 1)
 
+# data = np.array([[0, -0.2, 0], [0, 0.3, 1]])
 data = dataset_generator(x_dict)
 
 model = SVLoR()

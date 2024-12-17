@@ -85,21 +85,31 @@ def result_tracker(iter_idx, check_freq, th_accum, model, loss_list, loss):
 
 
 def result_visualizer(th_accum, loss_list, data):
+    plt.style.use('ggplot')
     fig, ax = plt.subplots(2, 1, figsize=(30, 10))
     fig.subplots_adjust(hspace=0.3)
-    ax[0].set_title(r'$\vec{\theta}$' + ' Update')
+    # 첫 번째 subplot: θ 업데이트
+    ax[0].set_title(r'$\vec{\theta}$' + ' Update', fontsize=20)
     ax[0].plot(th_accum[1, :], label=r'$\theta_{1}$')
     ax[0].plot(th_accum[0, :], label=r'$\theta_{0}$')
-    ax[0].legend()
+    ax[0].legend(fontsize=16)
     iter_ticks = np.linspace(0, th_accum.shape[1], 10).astype(np.int64)
     ax[0].set_xticks(iter_ticks)
-    ax[1].set_title(r'$\mathcal{L}$')
+    ax[0].tick_params(axis='both', which='major', labelsize=14)
+
+    # 두 번째 subplot: Loss 업데이트
+    ax[1].set_title(r'$\mathcal{L}$', fontsize=20)
     ax[1].plot(loss_list)
     ax[1].set_xticks(iter_ticks)
+    ax[1].tick_params(axis='both', which='major', labelsize=14)
+
+    # 세 번째 subplot: 예측 업데이트
     n_pred = 1000
     fig, ax = plt.subplots(figsize=(30, 10))
-    ax.set_title('Predictor Update')
+    ax.set_title('Predictor Update', fontsize=20)
     ax.scatter(data[:, 1], data[:, -1])
+    ax.tick_params(axis='both', which='major', labelsize=14)
+
     ax_idx_arr = np.linspace(0, len(loss_list) - 1, n_pred).astype(np.int64)
     cmap = plt.get_cmap('rainbow', lut=len(ax_idx_arr))
     x_pred = np.linspace(np.min(data[:, 1]), np.max(data[:, 1]), 1000)
@@ -109,9 +119,11 @@ def result_visualizer(th_accum, loss_list, data):
         a = 1 / (1 + np.exp(-1 * z))
         ax.plot(x_pred, a,
                 color=cmap(ax_cnt),
-                alpha=
-                0.2)
+                alpha=0.2)
+
     y_ticks = np.round(np.linspace(0, 1, 7), 2)
     ax.set_yticks(y_ticks)
 
+    # y축 라벨 크기
+    ax.tick_params(axis='y', labelsize=14)
     plt.show()

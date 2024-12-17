@@ -1,8 +1,7 @@
-import matplotlib.pyplot as plt
 import matplotlib as mpl
 from SVLoRModules import *
 
-from dataset_generator import dataset_generator
+from LogisticRegression.SingleVariate.OneSample.dataset_generator import dataset_generator
 
 np.random.seed(0)
 

@@ -1,11 +1,8 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib as mpl
-import matplotlib.cm as cm
 from SVLoRModules import *
 
 import LinearRegression.util.basic_node as nodes
-from dataset_generator import dataset_generator
+from LogisticRegression.SingleVariate.OneSample.dataset_generator import dataset_generator
 
 np.random.seed(0)
 
