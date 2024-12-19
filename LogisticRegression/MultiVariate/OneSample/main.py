@@ -1,5 +1,5 @@
 from functions import *
-from dataset import *
+from LogisticRegression.MultiVariate.xor.dataset import *
 
 feature_dim = 2
 noise_factor = 0.
