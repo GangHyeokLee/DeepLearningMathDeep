@@ -139,3 +139,63 @@ def result_visualizer(th_accum, cost_list, data, mean, std, n_sample, noise_fact
                fontsize=10, verticalalignment='top', bbox=dict(boxstyle="round", facecolor="white", alpha=0.8))
 
     plt.show()
+
+
+def plot_classifier_with_projection(data, th_accum):
+    # 데이터 분리
+    p_idx = np.where(data[:, -1] > 0)
+    np_idx = np.where(data[:, -1] <= 0)
+    
+    # 결정 경계면 계산
+    f_th0, f_th1 = th_accum[:, -1]  # th0, th1만 사용
+    x_range = np.linspace(np.min(data[:, 1]), np.max(data[:, 1]), 100)
+    
+    sigmoid = Sigmoid()
+    # 시그모이드 함수 계산
+    z = f_th1 * x_range + f_th0
+    pred = sigmoid.forward(z)
+    
+    # 그래프 생성
+    fig = plt.figure(figsize=(20, 8))
+    
+    # 3D 그래프
+    ax1 = fig.add_subplot(121, projection='3d')
+    ax1.scatter(data[p_idx, 1].flat, np.zeros_like(data[p_idx, 1].flat), data[p_idx, -1].flat, 
+               c='blue', marker='o', label='Positive Class')
+    ax1.scatter(data[np_idx, 1].flat, np.zeros_like(data[np_idx, 1].flat), data[np_idx, -1].flat, 
+               c='red', marker='x', label='Negative Class')
+    
+    # 결정 경계면 그리기
+    X = x_range
+    Y = np.zeros_like(x_range)  # y축은 0으로 고정
+    Z = pred
+    ax1.plot(X, Y, Z, color='g', linewidth=2, label='Decision Boundary')
+    
+    ax1.set_xlabel(r'$x$', labelpad=10)
+    ax1.set_ylabel('', labelpad=10)  # y축 레이블 제거
+    ax1.set_zlabel('Probability', labelpad=10)
+    ax1.set_title('3D Logistic Regression Result')
+    ax1.legend()
+    
+    # 2D 그래프
+    ax2 = fig.add_subplot(122)
+    ax2.scatter(data[p_idx, 1].flat, data[p_idx, -1].flat, c='blue', marker='o', label='Positive Class')
+    ax2.scatter(data[np_idx, 1].flat, data[np_idx, -1].flat, c='red', marker='x', label='Negative Class')
+    ax2.plot(x_range, pred, color='g', linewidth=2, label='Logistic Function')
+    
+    # 결정 경계선 (y=0.5)
+    ax2.axhline(y=0.5, color='gray', linestyle='--', alpha=0.5, label='Decision Boundary (y=0.5)')
+    
+    ax2.set_xlabel(r'$x$')
+    ax2.set_ylabel('Probability')
+    ax2.set_title('Logistic Regression Decision Boundary')
+    ax2.legend()
+    
+    # 파라미터 정보 표시
+    param_text = f"θ₀: {f_th0:.3f}\nθ₁: {f_th1:.3f}"
+    ax2.text(0.02, 0.95, param_text, transform=ax2.transAxes,
+             fontsize=10, verticalalignment='top', 
+             bbox=dict(boxstyle="round", facecolor="white", alpha=0.8))
+    
+    plt.tight_layout()
+    plt.show()

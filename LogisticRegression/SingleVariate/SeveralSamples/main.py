@@ -13,7 +13,7 @@ mpl.rcParams['legend.fontsize'] = 30
 
 model = SVLoR()
 
-x_dict = get_xdict(1, 1, 100, 0, 0, 1)
+x_dict = get_xdict(0, 1, 100, 0.1, 0, 1)
 data = dataset_generator(x_dict)
 
 batch_size = 2
@@ -44,3 +44,4 @@ for epoch in range(epochs):
         iter_idx, th_accum = result_tracker(iter_idx, check_freq, th_accum, model, cost_list, J)
 
 result_visualizer(th_accum, cost_list, data, x_dict.get('mean'), x_dict.get('std'), x_dict.get('n_sample'), x_dict.get('noise_factor'), batch_size, epochs, lr)
+plot_classifier_with_projection(data, th_accum)

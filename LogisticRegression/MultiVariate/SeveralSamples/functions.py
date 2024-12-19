@@ -14,6 +14,11 @@ class Affine_Function:
         self._dZ1_list = [None] * (self._feature_dim + 1)
         self._dZ2_list = [None] * (self._feature_dim + 1)
 
+        self._dTh_list = [None] * (self._feature_dim + 1)
+
+        self._node_imp()
+        self._random_initialization()
+
     def _node_imp(self):
         self._node1 = [None] + [nodes.mul_node() for _ in range(self._feature_dim)]
         self._node2 = [None] + [nodes.plus_node() for _ in range(self._feature_dim)]
@@ -145,7 +150,7 @@ class MVLoR:
         return self._affine.get_Th()
 
 
-class BinaryCrossEntropy_Loss:
+class BinaryCrossEntropy_Cost:
     def __init__(self):
         self._Y, self._Pred = None, None
         self._mean_node = nodes.mean_node()
@@ -218,4 +223,77 @@ def result_visualizer(th_accum, feature_dim):
     iter_ticks = np.linspace(0, th_accum.shape[1], 10).astype(int)
     ax.set_xticks(iter_ticks)
 
+    plt.show()
+
+
+def plot_classifier_with_projection(data, th_accum, sigmoid):
+    # 데이터 분리
+    p_idx = np.where(data[:, -1] > 0)
+    np_idx = np.where(data[:, -1] <= 0)
+    
+    # 결정 경계면 계산
+    f_th0, f_th1, f_th2 = th_accum[:, -1]
+    x1_range = np.linspace(np.min(data[:, 1]), np.max(data[:, 1]), 100)
+    x2_range = np.linspace(np.min(data[:, 2]), np.max(data[:, 2]), 100)
+    X1, X2 = np.meshgrid(x1_range, x2_range)
+    
+    # 예측 확률 계산
+    Z = X2 * f_th2 + X1 * f_th1 + f_th0
+    pred = sigmoid.forward(Z)
+    
+    # 그래프 생성
+    fig = plt.figure(figsize=(20, 8))
+    
+    # 3D 그래프 (데이터 분포와 결정 경계면)
+    ax1 = fig.add_subplot(121, projection='3d')
+    
+    # 데이터 포인트 표시
+    ax1.scatter(data[p_idx, 1].flat, data[p_idx, 2].flat, data[p_idx, -1].flat, 
+                c='blue', marker='o', label='Positive Class')
+    ax1.scatter(data[np_idx, 1].flat, data[np_idx, 2].flat, data[np_idx, -1].flat, 
+                c='red', marker='x', label='Negative Class')
+    
+    # 결정 경계면 표시
+    surf = ax1.plot_surface(X1, X2, pred, alpha=0.3, cmap='viridis')
+    
+    ax1.set_xlabel('x₁')
+    ax1.set_ylabel('x₂')
+    ax1.set_zlabel('Probability')
+    ax1.set_title('3D Data Distribution and Decision Surface')
+    ax1.legend()
+    
+    # 컬러바 추가
+    fig.colorbar(surf, ax=ax1, label='Prediction Probability')
+    
+    # 2D 그래프 (x₁-x₂ 평면에서의 결정 경계)
+    ax2 = fig.add_subplot(122)
+    
+    # 데이터 포인트 표시
+    ax2.scatter(data[p_idx, 1].flat, data[p_idx, 2].flat, 
+                c='blue', marker='o', label='Positive Class')
+    ax2.scatter(data[np_idx, 1].flat, data[np_idx, 2].flat, 
+                c='red', marker='x', label='Negative Class')
+    
+    # 결정 경계 컨투어 표시
+    contour = ax2.contour(X1, X2, pred, levels=[0.5], 
+                         colors='g', linewidths=2)
+    ax2.clabel(contour, inline=True, fmt='Decision Boundary')
+    
+    # 확률 분포 표시
+    contourf = ax2.contourf(X1, X2, pred, levels=np.linspace(0, 1, 11), 
+                           alpha=0.3, cmap='viridis')
+    plt.colorbar(contourf, ax=ax2, label='Prediction Probability')
+    
+    ax2.set_xlabel('x₁')
+    ax2.set_ylabel('x₂')
+    ax2.set_title('Decision Boundary in x₁-x₂ Plane')
+    ax2.legend()
+    
+    # 파라미터 정보 표시
+    param_text = f"θ₀: {f_th0:.3f}\nθ₁: {f_th1:.3f}\nθ₂: {f_th2:.3f}"
+    ax2.text(0.02, 0.95, param_text, transform=ax2.transAxes,
+             fontsize=10, verticalalignment='top', 
+             bbox=dict(boxstyle="round", facecolor="white", alpha=0.8))
+    
+    plt.tight_layout()
     plt.show()
