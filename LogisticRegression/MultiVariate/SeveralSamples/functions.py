@@ -65,9 +65,11 @@ class Sigmoid:
         dZ = dPred * Partial
         return dZ
 
+
 class Tanh:
     def __init__(self):
-        self._Pred=None
+        self._Pred = None
+
     def forward(self, Z):
         self._Pred = (np.exp(Z) - np.exp(-Z)) / (np.exp(Z) + np.exp(-Z))
         return self._Pred
@@ -77,6 +79,35 @@ class Tanh:
         dZ = dPred * Partial
         return dZ
 
+
+class ReLU:
+    def __init__(self):
+        self._Pred = None
+
+    def forward(self, Z):
+        self._Pred = Z
+        return 1 if Z >= 0 else 0
+
+    def backward(self):
+        return 1 if self._Pred >= 0 else 0
+
+
+class AN:
+    def __init__(self, activation='Sigmoid'):
+        self._activation = activation
+        self._activation_function = None
+
+        self._act_imp()
+
+    def _act_imp(self):
+        if self._activation == 'Sigmoid':
+            self._activation_function = Sigmoid()
+        elif self._activation == 'Tanh':
+            self._activation_function = Tanh()
+        elif self._activation == 'ReLU':
+            self._activation_function = ReLU()
+        else:
+            print('unknown activation function')
 
 
 class MVLoR:
