@@ -48,7 +48,7 @@ for epoch in range(epochs):
         Z1_1 = node1_1.forward(Th[1], X[:, 1])
         Z1_2 = node1_2.forward(Th[2], X[:, 2])
         Z2_1 = node2_1.forward(Th[0], Z1_1)
-        Z2_2 = node2_2.forward(Z2_1. Z1_2)
+        Z2_2 = node2_2.forward(Z2_1, Z1_2)
 
         Z3 = node3.forward(Y, Z2_2)
         Z4 = node4.forward(Z3)
