@@ -86,16 +86,20 @@ class ReLU:
 
     def forward(self, Z):
         self._Pred = Z
-        return 1 if Z >= 0 else 0
+        return np.maximum(0, Z)
 
-    def backward(self):
-        return 1 if self._Pred >= 0 else 0
+    def backward(self, dPred):
+        dZ = dPred * (self._Pred > 0)
+        return dZ
 
 
 class AN:
-    def __init__(self, activation='Sigmoid'):
+    def __init__(self, feature_dim, activation='Sigmoid'):
         self._activation = activation
         self._activation_function = None
+
+        self._feature_dim = feature_dim
+        self._affine = Affine_Function(self._feature_dim)
 
         self._act_imp()
 
@@ -108,6 +112,18 @@ class AN:
             self._activation_function = ReLU()
         else:
             print('unknown activation function')
+
+    def forward(self, X):
+        Z = self._affine.forward(X)
+        Pred = self._activation_function.forward(Z)
+        return Pred
+
+    def backward(self, dPred, lr):
+        dZ = self._activation_function.backward(dPred)
+        self._affine.backward(dZ, lr)
+
+    def get_Th(self):
+        return self._affine.get_Th()
 
 
 class MVLoR:
