@@ -54,7 +54,7 @@ class Affine_Function:
 
 class Sigmoid:
     def __init__(self):
-        self._pred = None
+        self._Pred = None
 
     def forward(self, Z):
         self._Pred = 1 / (1 + np.exp(-1 * Z))
@@ -64,6 +64,19 @@ class Sigmoid:
         Partial = self._Pred * (1 - self._Pred)
         dZ = dPred * Partial
         return dZ
+
+class Tanh:
+    def __init__(self):
+        self._Pred=None
+    def forward(self, Z):
+        self._Pred = (np.exp(Z) - np.exp(-Z)) / (np.exp(Z) + np.exp(-Z))
+        return self._Pred
+
+    def backward(self, dPred):
+        Partial = (1 + self._Pred) * (1 - self._Pred)
+        dZ = dPred * Partial
+        return dZ
+
 
 
 class MVLoR:
